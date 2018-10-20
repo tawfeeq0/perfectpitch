@@ -22,24 +22,23 @@ class RecordVC : UIViewController, AVAudioRecorderDelegate{
 
     @IBAction func record(_ sender: Any) {
         
+        setButtons(forRecording: isRecording)
         if isRecording {
-            progressLabel.text = "Top to start recording"
-            if let image = UIImage(named: "Record") {
-                recordButton.setImage(image, for: UIControl.State.normal)
-            }
             isRecording = false
             audioRecorder.stop()
             let session = AVAudioSession.sharedInstance()
             try! session.setActive(false)
         }
         else{
-            progressLabel.text = "Top to finish recording"
-            if let image = UIImage(named: "Stop") {
-                recordButton.setImage(image, for: UIControl.State.normal)
-            }
             isRecording = true
             recordAudio()
         }
+    }
+    
+    func setButtons(forRecording recording: Bool) {
+        isRecording = recording
+        recordButton.setImage(recording ? UIImage(named: "Record") : UIImage(named: "Stop"), for: UIControl.State.normal)
+        progressLabel.text = recording ? "Tap to start recording" : "Tap to finish recording"
     }
     
     
